@@ -1,0 +1,40 @@
+🧱 Entities & Relationships
+1. STUDENTS
+STUDENT_ID (PK)
+NAME
+BRANCH
+2. PAPERS
+PAPER_ID (PK)
+TITLE
+CATEGORY
+PUBLICATION_NAME
+EVENT_DATE
+STATUS
+PROOF_LINK
+SEMESTER
+3. PAPER_AUTHORS
+
+(Bridge Table for Many-to-Many)
+
+PAPER_ID (FK)
+STUDENT_ID (FK, nullable)
+AUTHOR_TYPE (Student / Faculty / External)
+CONTRIBUTION_PCT
+4. GRACE_MARKS_SUMMARY
+STUDENT_ID (FK)
+PAPER_ID (FK)
+MARKS_AWARDED
+SEMESTER
+🔗 Relationships
+🧑‍🎓 STUDENTS ↔ PAPERS
+Many-to-Many
+Implemented via PAPER_AUTHORS
+📄 PAPERS ↔ PAPER_AUTHORS
+One-to-Many
+(One paper → many authors)
+🧑‍🎓 STUDENTS ↔ GRACE_MARKS_SUMMARY
+One-to-Many
+(One student → multiple marks records)
+📄 PAPERS ↔ GRACE_MARKS_SUMMARY
+One-to-Many
+(One paper → marks distributed to students)

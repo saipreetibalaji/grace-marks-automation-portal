@@ -1,0 +1,94 @@
+📡 API DOCUMENTATION
+🔗 Base URL
+http://localhost:3000
+📄 1. Submit Paper
+POST /api/submit
+📥 Request Body
+{
+  "paper": {
+    "title": "AI in Healthcare",
+    "venue": "IEEE Conference",
+    "semester": 4,
+    "date": "2026-04-20",
+    "proof": "https://doi.org/xyz",
+    "category": "Conference",
+    "status": "Accepted"
+  },
+  "authors": [
+    {
+      "name": "John",
+      "type": "Student",
+      "id": "S101",
+      "pct": 60
+    },
+    {
+      "name": "Alice",
+      "type": "Student",
+      "id": "S102",
+      "pct": 40
+    },
+    {
+      "name": "Dr. Smith",
+      "type": "Faculty",
+      "id": null,
+      "pct": 0
+    }
+  ]
+}
+✅ Success Response
+{
+  "message": "Submission Successful and Marks Calculated!"
+}
+❌ Error Responses
+Contribution not 100%
+{
+  "error": "Total Student Contribution must be 100%"
+}
+Max paper limit reached
+{
+  "error": "Student S101 already reached 2 paper limit."
+}
+Server error
+{
+  "error": "Internal server error"
+}
+🧠 Business Logic Applied
+Student contributions must sum to 100%
+Max 2 papers per semester per student
+Marks = (contribution / 100) × 10
+📊 2. Get Reports
+GET /api/reports/:type
+📌 A. Student Marks Report
+Endpoint:
+/api/reports/student_marks
+Response:
+[
+  {
+    "STUDENT": "John",
+    "TITLE": "AI in Healthcare",
+    "CONTRIB": 60,
+    "MARKS": 6
+  }
+]
+📌 B. Branch Paper Summary
+Endpoint:
+/api/reports/branch_paper
+Response:
+[
+  {
+    "BRANCH": "CSE",
+    "CATEGORY": "Conference",
+    "TOTAL_PAPERS": 5
+  }
+]
+📌 C. Branch Marks Report
+Endpoint:
+/api/reports/branch_marks
+Response:
+[
+  {
+    "BRANCH": "CSE",
+    "STUDENT": "John",
+    "TOTAL_MARKS": 12
+  }
+]
