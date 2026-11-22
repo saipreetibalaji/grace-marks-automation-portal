@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amrita | Grace Marks Automation Portal</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9b1c31; /* Amrita Maroon */
+            --secondary: #2d3748;
+            --accent: #3182ce;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #1a202c;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 40px;
+            overflow-x: hidden;
+        }
+
+        /* --- Persistent University Logo --- */
+        .university-header {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+        .university-header:hover { transform: scale(1.05); }
+        .university-header img { height: 60px; width: auto; display: block; }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-bottom: 50px;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Header & Role Card --- */
+        .portal-title {
+            text-align: left;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary);
+            padding-left: 20px;
+        }
+        .portal-title h1 { margin: 0; font-size: 28px; color: var(--primary); }
+        .portal-title p { margin: 5px 0 0; color: #718096; font-size: 14px; }
+
+        .role-card {
+            background: var(--card);
+            padding: 20px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+
+        /* --- Form Styling --- */
+        .form-card {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+        .section-header div { width: 40px; height: 4px; background: var(--primary); border-radius: 2px; }
+        .section-header h2 { margin: 0; font-size: 20px; font-weight: 700; color: var(--secondary); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #a0aec0;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: #f8fafc;
+            color: var(--secondary);
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(155, 28, 49, 0.1);
+        }
+
+        /* --- Authors Section --- */
+        .author-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid #edf2f7;
+        }
+
+        .author-row {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 0.8fr;
+            gap: 15px;
+            align-items: end;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- Buttons --- */
+        .btn {
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-ghost { background: transparent; color: var(--primary); border: 2px solid var(--primary); width: auto; margin: 10px 0; }
+        .btn-ghost:hover { background: var(--primary); color: white; }
+
+        .btn-primary { background: var(--primary); color: white; width: 100%; font-size: 16px; margin-top: 20px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(155, 28, 49, 0.3); }
+
+        /* --- Report Table Styling --- */
+        #report-container table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+        #report-container th { text-align: left; padding: 12px; color: #718096; font-size: 12px; }
+        #report-container td { background: #f8fafc; padding: 15px; font-size: 14px; border-top: 1px solid #edf2f7; border-bottom: 1px solid #edf2f7; }
+        #report-container td:first-child { border-left: 1px solid #edf2f7; border-radius: 10px 0 0 10px; }
+        #report-container td:last-child { border-right: 1px solid #edf2f7; border-radius: 0 10px 10px 0; }
+    </style>
+</head>
+<body>
+
+    <!-- Persistent Logo -->
+    <div class="university-header">
+        <img src="https://tse1.mm.bing.net/th/id/OIP.2EqoQ9HM6G5U7Xir4DtG_AAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Amrita Logo">
+    </div>
+
+    <div class="container">
+        <div class="portal-title">
+            <h1>Grace Marks Automation</h1>
+            <p>Research & Publication Reward System • Academic Office</p>
+        </div>
+
+        <!-- Role Selector Card -->
+        <div class="role-card">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="background: rgba(155, 28, 49, 0.1); padding: 10px; border-radius: 10px; color: var(--primary);">👤</div>
+                <div>
+                    <div style="font-weight: 700; font-size: 14px;">Identity Selection</div>
+                    <div style="font-size: 12px; color: #718096;">Choose your portal access level</div>
+                </div>
+            </div>
+            <select id="role-selector" onchange="toggleRole()" style="width: 250px; margin: 0;">
+                <option value="student">Student Portal</option>
+                <option value="admin">Administrator Portal</option>
+            </select>
+        </div>
+
+        <!-- STUDENT PORTAL -->
+        <div id="student-section">
+            <div class="form-card">
+                <div class="section-header">
+                    <div></div>
+                    <h2>Paper Submission</h2>
+                </div>
+                
+                <div class="grid">
+                    <div>
+                        <label>Paper Title</label>
+                        <input type="text" id="title" placeholder="Research Title">
+                    </div>
+                    <div>
+                        <label>Category</label>
+                        <select id="category">
+                            <option>Journal</option>
+                            <option>Conference</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid" style="margin-top: 15px;">
+                    <div>
+                        <label>Publication / Venue</label>
+                        <input type="text" id="venue" placeholder="Name of Journal/Conf">
+                    </div>
+                    <div>
+                        <label>Current Status</label>
+                        <select id="status">
+                            <option>Accepted</option>
+                            <option>Presented</option>
+                            <option>Published</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid" style="margin-top: 15px;">
+                    <div>
+                        <label>Event Date</label>
+                        <input type="date" id="date">
+                    </div>
+                    <div>
+                        <label>Target Semester</label>
+                        <input type="number" id="semester" placeholder="e.g. 4">
+                    </div>
+                </div>
+
+                <label style="margin-top: 15px;">Scopus Proof / DOI Link</label>
+                <input type="text" id="proof" placeholder="https://doi.org...">
+
+                <div class="author-box">
+                    <label>Research Contributors</label>
+                    <div id="author-container"></div>
+                    <button class="btn btn-ghost" onclick="addAuthorRow()">+ Add Contributor</button>
+                </div>
+
+                <button class="btn btn-primary" onclick="submitData()">Finalize & Submit Request</button>
+            </div>
+        </div>
+
+        <!-- ADMIN PORTAL -->
+        <div id="admin-section" style="display: none;">
+            <div class="form-card">
+                <div class="section-header">
+                    <div></div>
+                    <h2>Administrator Insights</h2>
+                </div>
+                
+                <label>Select Analytical Report</label>
+                <select id="report-type" onchange="fetchReport(this.value)">
+                    <option value="">-- Choose Data Module --</option>
+                    <option value="student_marks">Student Performance Audit</option>
+                    <option value="branch_paper">Branch Publication Summary</option>
+                    <option value="branch_marks">Aggregated Grace Marks Log</option>
+                </select>
+
+                <div id="report-container" style="margin-top: 30px;">
+                    <div style="text-align: center; padding: 40px; color: #a0aec0;">
+                        <div style="font-size: 40px; margin-bottom: 10px;">📈</div>
+                        Please select a report module to view real-time data
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
